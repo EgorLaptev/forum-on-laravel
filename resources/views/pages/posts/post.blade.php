@@ -15,13 +15,15 @@
 
     <section class="container comments mt-5 pb-5">
         <h2 class="h1 mb-4 text-center text-dark">Comments</h2>
-        <ul>
+        <ul id="commentsList">
             <li class="container text-light p-0 rounded mb-3">
-                <form action="{{ route('comment.create', ['post_id' => $post['id']]) }}" method="POST">
+                @auth()
+                <form action="{{ route('comment.create', ['post_id' => $post['id']]) }}" id="commentForm" method="POST">
                     @csrf
                     <textarea name="content" placeholder="Comment" rows="5" class="form-control w-100 h-50"></textarea>
-                    <input type="submit" class="form-control btn btn-success" value="Send">
+                    <input type="submit" class="form-control btn btn-success" id="sendComment" value="Send">
                 </form>
+                    @endauth
             </li>
             @if(count($post->comments))
                 @foreach($post->comments as $comment)
@@ -35,5 +37,8 @@
             @endif
         </ul>
     </section>
+@endsection
 
+@section('scripts')
+    <script src='{{ url('public/js/comment.js') }}'></script>
 @endsection

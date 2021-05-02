@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function create(Request $request, $post_id)
+    public function create(Request $request, $post_id = '')
     {
 
         $valid = $request->validate([
@@ -21,6 +21,16 @@ class CommentController extends Controller
             'post_id' => $post_id,
         ]);
 
-        return back();
+        $comment = Comment::get()->last();
+
+        return
+
+<<<COMMENTHTML
+    <h4 class="mb-2"> {$comment->user['login']} </h4>
+    <p> {$comment['content']} </p>
+    <span class="float-left">{$comment['likes']}<i class="fas fa-heart ml-1"></i></span>
+    <time class="text-secondary float-right" datetime="">{$comment['created_at']}
+COMMENTHTML;
+
     }
 }
