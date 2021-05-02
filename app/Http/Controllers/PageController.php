@@ -10,7 +10,7 @@ class PageController extends Controller
     public function home()
     {
         return view('pages.home', [
-            'posts' => Post::all(),
+            'posts' => Post::simplePaginate(3),
         ]);
     }
 }
