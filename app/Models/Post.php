@@ -11,10 +11,6 @@ class Post extends Model
 
     protected $guarded = [];
 
-    protected $attributes = [
-      'likes' => 0
-    ];
-
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
@@ -23,6 +19,11 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'post_id', 'id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(PostLike::class, 'post_id', 'id');
     }
 
 }

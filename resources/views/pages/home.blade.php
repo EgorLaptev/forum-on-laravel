@@ -3,10 +3,10 @@
 @section('title') Home @endsection
 
 @section('content')
-    @if($posts)
+    @if(count($posts))
         <ul class="posts container align-self-start">
             @foreach($posts as $post)
-                <li class="post bg-dark text-white p-5 rounded position-relative mb-4">
+                <li class="post bg-dark text-white text-left p-5 rounded position-relative mb-4">
                     <a href="{{ route('posts.show', ['post' => $post]) }}"
                        class="position-absolute fixed-top d-block w-100 h-100"></a>
                     <h3 class="mb-3">{{ $post['title'] }}</h3>
@@ -21,7 +21,7 @@
             </li>
         </ul>
     @else
-        <div class="container">
+        <div class="container text-dark">
             <h2>Nothing to see :(</h2>
         </div>
     @endif

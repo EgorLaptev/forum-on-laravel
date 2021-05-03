@@ -16,4 +16,10 @@ class Comment extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    public function likes()
+    {
+        return $this->hasMany(CommentLike::class, 'comment_id', 'id');
+    }
+
 }
+

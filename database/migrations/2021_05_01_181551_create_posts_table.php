@@ -18,7 +18,6 @@ class CreatePostsTable extends Migration
             $table->text('title');
             $table->text('anons');
             $table->text('content');
-            $table->integer('likes')->default(0);
             $table->integer('user_id');
             $table->timestamps();
         });

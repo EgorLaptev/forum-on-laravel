@@ -17,12 +17,10 @@ commentForm.addEventListener('submit', evt => {
         .then(resp => resp.text())
         .then(commentText => {
 
-
-
             let commentsList = document.getElementById('commentsList');
 
             let comment = document.createElement('li');
-            comment.className = 'container comment bg-dark text-light p-4 pb-5 rounded mb-3';
+            comment.className = 'container comment bg-dark text-light text-left p-4 pb-5 rounded mb-3';
 
             comment.innerHTML = commentText;
 

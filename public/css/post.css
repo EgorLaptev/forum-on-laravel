@@ -1,0 +1,6 @@
+#likePost:hover,
+#deletePost:hover,
+.deleteComment:hover,
+.likeComment:hover {
+    color: red !important;
+}

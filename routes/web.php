@@ -14,6 +14,11 @@ Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->middleware(
 // Posts
 Route::resource('posts', \App\Http\Controllers\PostController::class);
 Route::match(['post', 'get'], 'posts/create', 'App\Http\Controllers\PostController@create')->middleware('auth')->name('posts.create');
+Route::get('posts/destroy/{post}', 'App\Http\Controllers\PostController@destroy')->middleware(['auth', 'can:delete,post'])->name('posts.delete');
+Route::any('posts/like/{post_id}', 'App\Http\Controllers\PostController@like')->name('posts.like');
+
 
 // Comments
-Route::post('comment/create/{post_id}', 'App\Http\Controllers\CommentController@create')->middleware('auth')->name('comment.create');
+Route::any('comment/create/{post_id}', 'App\Http\Controllers\CommentController@create')->middleware('auth')->name('comment.create');
+Route::any('comment/like/{comment_id}', 'App\Http\Controllers\CommentController@like')->name('comment.like');
+Route::any('comment/delete/{comment_id}', 'App\Http\Controllers\CommentController@delete')->middleware(['auth', 'can:delete,comment'])->name('comment.delete');
