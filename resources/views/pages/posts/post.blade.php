@@ -34,16 +34,21 @@
 
         <ul id="commentsList">
 
-            {{-- Comment's form --}}
-            <li class="container text-light p-0 rounded mb-3">
-                @auth()
+            @auth()
+                <li class="container text-light p-0 rounded mb-3">
+
+                    {{-- Comment's form --}}
                     <form action="{{ route('comment.create', ['post_id' => $post['id']]) }}" id="commentForm" method="POST">
+
                         @csrf
+
                         <textarea name="content" placeholder="Comment" rows="5" class="form-control w-100 h-50"></textarea>
                         <input type="submit" class="form-control btn btn-success" id="sendComment" value="Send">
+
                     </form>
-                @endauth
-            </li>
+
+                </li>
+            @endauth
 
             {{-- Comment --}}
             @if(count($post->comments))
@@ -55,8 +60,10 @@
                         <p>{{ $comment['content'] }}</p>
 
                         {{-- Manage buttons --}}
-                        <button class="likeComment btn float-left text-light p-0 m-0" data-route="{{ route('comment.like', ['comment_id' => $comment['id']]) }}"><span class="likesCount">{{ count($comment->likes()->get()) }}</span> <i class="fas fa-heart ml-1"></i></button>
-                        <button class="deleteComment btn text-light p-0 ml-3" data-route="{{ route('comment.delete', ['comment_id' => $comment['id']]) }}"><i class="fas fa-trash"></i></button>
+                        <button class="likeComment btn text-light p-0 m-0" data-route="{{ route('comment.like', ['comment_id' => $comment['id']]) }}"><span class="likesCount">{{ count($comment->likes()->get()) }}</span> <i class="fas fa-heart ml-1"></i></button>
+                        @can('delete', $comment)
+                            <button class="deleteComment btn text-light p-0 ml-3" data-route="{{ route('comment.delete', [$comment]) }}"><i class="fas fa-trash"></i></button>
+                        @endcan
 
                         {{-- Other information --}}
                         <time class="text-secondary float-right" datetime="{{ $comment['created_at'] }}">{{ $comment['created_at'] }}</time>
@@ -68,11 +75,12 @@
         </ul>
 
     </section>
+
 @endsection
 
 @section('scripts')
-    <script src='{{ url('public/js/comment/sendComment.js') }}'></script>
-    <script src='{{ url('public/js/comment/likeComment.js') }}'></script>
-    <script src='{{ url('public/js/comment/deleteComment.js') }}'></script>
-    <script src='{{ url('public/js/post/likePost.js') }}'></script>
+    <script src='{{ url('public/js/comment/send.js') }}'></script>
+    <script src='{{ url('public/js/comment/like.js') }}'></script>
+    <script src='{{ url('public/js/comment/delete.js') }}'></script>
+    <script src='{{ url('public/js/post/like.js') }}'></script>
 @endsection

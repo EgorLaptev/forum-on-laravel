@@ -12,59 +12,12 @@ use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-
-        if ($request->isMethod('post')) {
-
-            $post = $request->validate([
-                'title' => 'required',
-                'anons' => 'required',
-                'content' => 'required',
-            ]);
-
-            $post['user_id'] = Auth::id();
-
-            Post::create($post);
-
-            Session::flash('success', 'New post was added!');
-
-        }
-
-        return view('pages.posts.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
      *
      * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function show(Post $post)
     {
@@ -74,10 +27,42 @@ class PostController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create(Request $request)
+    {
+
+        if ($request->isMethod('post')) {
+
+            /* Validation user's data */
+            $valid = $request->validate([
+                'title' => 'required',
+                'anons' => 'required',
+                'content' => 'required',
+            ]);
+
+            /* Creating a new post */
+            Post::create([
+                'title' => $valid['title'],
+                'anons' => $valid['anons'],
+                'content' => $valid['content'],
+                'user_id' => Auth::id(),
+            ]);
+
+            /* Returning a successful message */
+            Session::flash('success', 'New post was added!');
+
+        }
+
+        return view('pages.posts.create');
+
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function edit(Post $post)
     {
@@ -85,28 +70,16 @@ class PostController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
-     *
      * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function delete(Post $post)
     {
 
+        /* Getting all post's comments */
         $commentsOfPost = Comment::where('post_id', $post['id'])->get();
 
+        /* Removing all post's comments & comments likes */
         foreach ($commentsOfPost as $commentOfPost) {
 
             $likesOfComment = CommentLike::where('comment_id', $commentOfPost['id'])->get();
@@ -119,32 +92,43 @@ class PostController extends Controller
 
         }
 
+        /* Getting all post's likes */
         $likesOfPost = PostLike::where('post_id', $post['id'])->get();
 
+        /* Removing all post's likes */
         foreach ($likesOfPost as $likeOfPost) {
             $likeOfPost->delete();
         }
 
+        /* Delete the post */
         Post::find($post['id'])->forceDelete();
+
         return redirect()->intended(route('home'));
+
     }
 
     public function like($post_id)
     {
 
         if (Auth::check()) {
+
+            /* Is the like mark already set? */
             $alreadyLiked = PostLike::where('post_id', $post_id)
                 ->where('user_id', Auth::id())
                 ->first();
 
             if (!$alreadyLiked) {
+
+                /* Adding new like */
                 PostLike::create([
                     'user_id' => Auth::id(),
                     'post_id' => $post_id,
                 ]);
+
             }
         }
 
+        /* Getting all post's likes */
         $likes = Post::find($post_id)->likes()->get();
 
         return count($likes);

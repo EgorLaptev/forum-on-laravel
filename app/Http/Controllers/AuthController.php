@@ -14,11 +14,13 @@ class AuthController extends Controller
 
         if ($request->isMethod('post')) {
 
+            /* Validating user's data */
             $credit = $request->validate([
                 'login' => 'required|min:4|max:30',
                 'password' => 'required|min:4|max:30',
             ]);
 
+            /* Attempt to login */
             if (Auth::attempt($credit)) {
                 return redirect()->intended(route('home'));
             }
@@ -34,6 +36,7 @@ class AuthController extends Controller
 
         if ($request->isMethod('post')) {
 
+            /* Validating user's data */
             $valid = $request->validate([
                 'login' => 'required|min:4|max:30|unique:users|regex:/[A-Za-z-_]/',
                 'email' => 'required|email|unique:users',
@@ -41,10 +44,13 @@ class AuthController extends Controller
                 'password_confirmation' => 'required',
             ]);
 
+            /* Hash password */
             $valid['password'] = Hash::make($valid['password']);
 
+            /* Create new user */
             $user = User::create($valid);
 
+            /* Login as a new user */
             Auth::login($user);
 
             return redirect()->intended(route('home'));

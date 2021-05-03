@@ -73,7 +73,6 @@ class CommentPolicy
     {
         return $user['id'] == $comment['user_id'];
     }
-
     /**
      * Determine whether the user can restore the model.
      *
