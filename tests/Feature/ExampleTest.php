@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+
     /**
      * A basic test example.
      *
@@ -16,6 +18,12 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        User::factory()
+            ->count(50)
+            ->hasPosts(random_int(0, 3))
+            ->hasComments(random_int(0, 10))
+            ->no_remember_token()
+            ->create();
+
     }
 }

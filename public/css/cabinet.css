@@ -1,0 +1,26 @@
+.personal_info,
+.user_info {
+    overflow: hidden;
+}
+
+.personal_info .fa-user {
+    position: absolute;
+    right: 0;
+    bottom: -20px;
+    font-size: 125px;
+}
+
+.user_info .fa-address-card {
+    position: absolute;
+    right: -25px;
+    bottom: 5px;
+    font-size: 150px;
+}
+
+.info_table td {
+    padding: 5px 10px;
+}
+
+button:hover .fa-eye {
+    color: royalblue;
+}

@@ -36,6 +36,11 @@ a:hover {
     text-decoration: none;
 }
 
+.btn:focus,.btn:active {
+   outline: none !important;
+   box-shadow: none;
+}
+
 main.content {
     padding: 10px 25px;
     width: 100%;

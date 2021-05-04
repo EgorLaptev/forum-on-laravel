@@ -22,7 +22,7 @@ class AuthController extends Controller
 
             /* Attempt to login */
             if (Auth::attempt($credit)) {
-                return redirect()->intended(route('home'));
+                return redirect(route('home'));
             }
 
         }
@@ -53,7 +53,7 @@ class AuthController extends Controller
             /* Login as a new user */
             Auth::login($user);
 
-            return redirect()->intended(route('home'));
+            return redirect(route('home'));
 
         }
 
@@ -63,6 +63,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->intended(route('home'));
+        return redirect(route('home'));
     }
 }

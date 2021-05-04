@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 // Pages
 Route::get('/', 'App\Http\Controllers\PageController@home')->name('home');
 Route::get('/home', 'App\Http\Controllers\PageController@home');
+Route::get('/cabinet', 'App\Http\Controllers\PageController@cabinet')->middleware('auth')->name('cabinet');
 
 // Auth
 Route::match(['post', 'get'], '/login', 'App\Http\Controllers\AuthController@login')->middleware('guest')->name('login');

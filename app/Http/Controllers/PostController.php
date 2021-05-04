@@ -103,7 +103,7 @@ class PostController extends Controller
         /* Delete the post */
         Post::find($post['id'])->forceDelete();
 
-        return redirect()->intended(route('home'));
+        return redirect(route('home'));
 
     }
 

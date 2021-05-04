@@ -31,4 +31,24 @@ class User extends Authenticatable
         'password'
     ];
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id', 'id');
+    }
+
+    public function liked_posts()
+    {
+        return $this->hasMany(PostLike::class, 'user_id', 'id');
+    }
+
+    public function liked_comments()
+    {
+        return $this->hasMany(CommentLike::class, 'user_id', 'id');
+    }
+
 }

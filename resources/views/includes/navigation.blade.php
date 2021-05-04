@@ -16,4 +16,7 @@
     <li class="nav-item">
         <a class="nav-link text-secondary" href="{{ route('posts.create') }}" tabindex="-1" aria-disabled="false">Create Post</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link text-secondary" href="{{ route('cabinet') }}">Сabinet</a>
+    </li>
 @endauth
