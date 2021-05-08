@@ -23,10 +23,14 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+
+        $random_role_id = [3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
         return [
             'login' => $this->faker->unique()->firstName(),
             'email' => $this->faker->unique()->email(),
             'email_verified_at' => $this->faker->optional($weight = .3)->dateTime(),
+            'role_id' => $random_role_id[array_rand($random_role_id)],
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

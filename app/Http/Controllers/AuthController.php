@@ -65,4 +65,11 @@ class AuthController extends Controller
         Auth::logout();
         return redirect(route('home'));
     }
+
+    public function delete()
+    {
+        Auth::user()->delete();
+        return redirect(route('home'));
+    }
+
 }

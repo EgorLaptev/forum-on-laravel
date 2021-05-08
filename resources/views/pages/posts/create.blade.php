@@ -9,7 +9,14 @@
 
         @csrf
 
-        <input type="text" name="title" placeholder="Title" class="form-control form-control-lg" value="{{ old('title') }}">
+        <input type="text" name="title" placeholder="Title" class="form-control form-control-lg"
+               value="{{ old('title') }}">
+        <div class="form-file">
+            <input type="file" name="image" class="form-file-input" id="image">
+            <label class="form-file-label" for="image">
+                <span class="form-file-text">Choose file...</span>
+            </label>
+        </div>
         <textarea name="anons" class="form-control form-control-lg" placeholder="Anons">{{ old('anons') }}</textarea>
         <textarea name="content" class="form-control form-control-lg" placeholder="Content">{{ old('content') }}</textarea>
 

@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\PostLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
@@ -133,6 +134,12 @@ class PostController extends Controller
 
         return count($likes);
 
+    }
+
+    public function index()
+    {
+        if(Gate::denies('admin')) abort(403);
+        else return Post::all();
     }
 
 }

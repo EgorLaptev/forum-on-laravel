@@ -1,8 +1,10 @@
 @extends('layouts.layout')
 
-@section('title') Home @endsection
+@section('title') Posts @endsection
 
 @section('content')
+
+    <h1 class="mb-5 text-uppercase text-dark ">{{ $user['login'] }}'s liked posts</h1>
 
     @if(count($posts))
 
@@ -11,6 +13,8 @@
             {{-- Posts --}}
             @foreach($posts as $post)
                 <li class="post bg-dark text-white text-left p-5 rounded position-relative mb-4">
+
+                    @php $post = $post->post  @endphp
 
                     {{-- Link to single post page --}}
                     <a href="{{ route('posts.show', ['post' => $post]) }}" class="position-absolute fixed-top d-block w-100 h-100"></a>

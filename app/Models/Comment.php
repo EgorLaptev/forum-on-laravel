@@ -21,5 +21,10 @@ class Comment extends Model
         return $this->hasMany(CommentLike::class, 'comment_id', 'id');
     }
 
+    public function post()
+    {
+        return $this->hasOne(Post::class, 'id','post_id');
+    }
+
 }
 

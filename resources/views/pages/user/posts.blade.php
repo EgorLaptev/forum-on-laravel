@@ -1,8 +1,10 @@
 @extends('layouts.layout')
 
-@section('title') Home @endsection
+@section('title') Posts @endsection
 
 @section('content')
+
+    <h1 class="mb-5 text-uppercase text-dark ">{{ $user['login'] }}'s posts</h1>
 
     @if(count($posts))
 

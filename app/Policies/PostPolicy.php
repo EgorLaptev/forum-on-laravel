@@ -13,7 +13,7 @@ class PostPolicy
 
     public function before(User $user)
     {
-        return ($user['role'] == 'admin') ? true : null;
+        return ($user['role_id'] == 3) ? true : null;
     }
 
     /**
@@ -36,7 +36,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        //
+        return $user['role_id'] >= 0;
     }
 
     /**
@@ -47,8 +47,7 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        $allowedRoles = ['writer', 'admin'];
-        return in_array($user['role'], $allowedRoles);
+        return $user['role_id'] >= 1;
     }
 
     /**
@@ -72,7 +71,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user['id'] == $post['user_id'];
+        return $user['id'] == $post['user_id'] || $user['role_id'] >= 2;
     }
 
     /**
@@ -96,6 +95,6 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post)
     {
-        return $user['role'] == 'admin';
+        return $user['role_id'] == 3;
     }
 }

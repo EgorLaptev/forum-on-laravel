@@ -22,6 +22,7 @@
 @include('includes.footer')
 
 <script src='{{ url('public/js/bootstrap/bootstrap.min.js') }}'></script>
+<script src='{{ url('public/js/post/search.js') }}'></script>
 @yield('scripts')
 
 </body>

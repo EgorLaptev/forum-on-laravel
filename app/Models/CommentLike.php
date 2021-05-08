@@ -13,4 +13,9 @@ class CommentLike extends Model
 
     public $timestamps = false;
 
+    public function comment()
+    {
+        return $this->hasOne(Comment::class, 'id', 'comment_id');
+    }
+
 }

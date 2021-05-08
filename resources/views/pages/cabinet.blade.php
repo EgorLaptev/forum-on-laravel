@@ -15,12 +15,17 @@
                 <ul>
                     <li> Login: {{ $user['login'] }} </li>
                     <li> E-mail: {{ $user['email'] }} </li>
-                    <li> Role: <span class="text-danger"> {{ $user['role'] }} </span></li>
+                    <li> Role: <span class="text-danger"> {{ $user->role['name'] }} </span></li>
                 </ul>
 
-                <button class="btn btn-danger mt-4">Delete account</button>
-
-                <div class="text-secondary fas fa-user"></div>
+                @cannot('admin')
+                    @if(\Illuminate\Support\Facades\Auth::id() == $user['id'])
+                        <a href="{{ route('user.delete', ['user_id' => $user['id']]) }}" id="deleteAccount" class="btn btn-danger mt-4">Delete account</a>
+                    @endif
+                    <div class="text-secondary fas fa-user personal_info-bg"></div>
+                @else
+                    <div class="text-secondary personal_info-bg fas fa-user-shield"></div>
+                @endcannot
 
             </section>
 
@@ -32,28 +37,28 @@
                         <td>Total posts</td>
                         <td>{{ count($user->posts()->get()) }}</td>
                         <td>
-                            <button class="btn"><i class="fas fa-eye"></i></button>
+                            <a href="{{ route('user.posts', ['user_id' => $user['id']]) }}" class="btn"><i class="fas fa-eye"></i></a>
                         </td>
                     </tr>
                     <tr>
                         <td>Total comments</td>
                         <td>{{ count($user->comments()->get()) }}</td>
                         <td>
-                            <button class="btn"><i class="fas fa-eye"></i></button>
+                            <a href="{{ route('user.comments', ['user_id' => $user['id']]) }}" class="btn"><i class="fas fa-eye"></i></a>
                         </td>
                     </tr>
                     <tr>
                         <td>Liked posts</td>
                         <td>{{ count($user->liked_posts()->get()) }}</td>
                         <td>
-                            <button class="btn"><i class="fas fa-eye"></i></button>
+                            <a href="{{ route('user.likedPosts', ['user_id' => $user['id']]) }}" class="btn"><i class="fas fa-eye"></i></a>
                         </td>
                     </tr>
                     <tr>
                         <td>Liked comments</td>
                         <td>{{ count($user->liked_comments()->get()) }}</td>
                         <td>
-                            <button class="btn"><i class="fas fa-eye"></i></button>
+                            <a href="{{ route('user.likedComments', ['user_id' => $user['id']]) }}" class="btn"><i class="fas fa-eye"></i></a>
                         </td>
                     </tr>
 
@@ -64,5 +69,31 @@
             </section>
 
         </div>
+        @can('moder')
+            <div class="row mt-3">
+
+                <section class="all_users bg-dark text-light text-left rounded p-4 col-12">
+
+                    <form>
+                        <input type="search" id="searchUser" placeholder="Search user" class="form-control">
+                    </form>
+
+                    <table id="usersList" class="table table-hover text-secondary p-5"> {{-- The list generate with js --}} </table>
+
+                </section>
+
+            </div>
+        @endcan
     </div>
+
+@endsection
+
+@section('scripts')
+    @can('moder')
+        {{-- Scripts for admin panel --}}
+        <script src='{{ url('public/js/cabinet/searchUser.js') }}'></script>
+    @elsecannot('moder')
+        {{-- Scripts for user panel --}}
+        <script src='{{ url('public/js/cabinet/deleteAccount.js') }}'></script>
+    @endcannot
 @endsection

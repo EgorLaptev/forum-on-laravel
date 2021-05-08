@@ -16,14 +16,19 @@
         <p class="mb-5">{{ $post['content'] }}</p>
 
         {{-- Manage buttons --}}
-        <button id="likePost" data-route="{{ route('posts.like', ['post_id' => $post['id']]) }}" class="btn text-light pl-0"><span id="postLikesCount">{{ count($post->likes()->get()) }}</span><i class="fas fa-heart ml-2"></i></button>
+        <button id="likePost" data-route="{{ route('posts.like', ['post_id' => $post['id']]) }}" class="btn text-light pt-1"><span id="postLikesCount">{{ count($post->likes()->get()) }}</span><i class="fas fa-heart ml-2"></i></button>
+        <span>{{ count($post->comments()->get()) }}<i class="ml-2 fas fa-comment"></i></span>
         @can('delete', $post)
-            <a href="{{ route('posts.delete', [$post] ) }}" id="deletePost" class="btn text-light p-0 ml-2"><i class="fas fa-trash"></i></a>
+            <a href="{{ route('posts.delete', [$post] ) }}" id="deletePost" class="btn text-light p-0 pb-1 ml-3"><i class="fas fa-trash"></i></a>
         @endcan
 
         {{-- Other information --}}
         <time class="text-secondary float-right ml-3" datetime="{{ $post['created_at'] }}">{{ date_format($post['created_at'], 'Y-m-d') }}</time>
-        <span class="text-secondary float-right">{{ $post->user['login'] }}</span>
+        <span class="text-secondary float-right">
+            @if($post->user) {{ $post->user['login'] }}
+            @else [ Deleted ]
+            @endif
+        </span>
 
     </article>
 
@@ -56,7 +61,7 @@
                     <li class="container comment bg-dark text-light text-left p-4 rounded mb-3">
 
                         {{-- Main content --}}
-                        <h4 class="mb-2">{{ $comment->user['login'] }}</h4>
+                        <h4 class="mb-2"> {{ $comment->user['login'] }} </h4>
                         <p>{{ $comment['content'] }}</p>
 
                         {{-- Manage buttons --}}

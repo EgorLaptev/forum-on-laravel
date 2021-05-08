@@ -13,7 +13,7 @@ class CommentPolicy
 
     public function before(User $user)
     {
-        return ($user['role'] == 'admin') ? true : null;
+        return ($user['role_id'] >= 2) ? true : null;
     }
 
     /**
